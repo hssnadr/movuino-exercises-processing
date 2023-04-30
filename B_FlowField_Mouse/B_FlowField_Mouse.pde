@@ -63,12 +63,12 @@ void draw() {
     timerSensor0 = millis();
 
     // ----------------------------------------------------------------------------------------------
-    // Exercise: change those variables to adapt the behavior of the bubbles with the Movuino movement
-    float globalEnergy;    // valeur varie entre 0 et 1
+    // Exercise: change variables to adapt the behavior of the bubbles with Movuino
+    float particleEnergy;    // valeur varie entre 0 et 1
     float angleDirection;  // valeur varie entre 0 et TWO_PI // entre 0 et 6,28
     int particleDensity;   // valeur varie entre 0 et 10
 
-    float x_ = (mouseX - width/2) / float(width/2);
+    float x_ = (mouseX - width/2) / float(width/2); // 
     float y_ = (mouseY - height/2) / float(height/2);
     long time_ = millis();
 
@@ -78,24 +78,20 @@ void draw() {
     oldy = y_;
     oldTime = time_;
 
-    globalEnergy = 10 * sqrt(pow(100 * dx_, 2) + pow(100 * dy_, 2));
-    particleDensity = round(random(2) + globalEnergy) ; // round(10000 * globalEnergy); // * 0.05);
-    // particleDensity = round(random(2) + 8*globalEnergy);
-    // particleDensity = constrain(particleDensity, 0, 8);
-    println(globalEnergy);
-    float particleEnergy_ =  globalEnergy / 20.0f;
+    float globalEnergy = 10 * pow(pow(100 * dx_, 2) + pow(100 * dy_, 2), 2);
+    globalEnergy = constrain(globalEnergy, 0, 23);
+    particleDensity = round(random(2) + globalEnergy);
+    particleEnergy =  globalEnergy / 23.0f;
+    println(particleEnergy);
     // ----------------------------------------------------------------------------------------------
 
     // Manage particles creation
+    float deltaTime_ = 300 * (1 - particleEnergy);
     angleDirection = getOrientationAngle(x_, y_);
-    float deltaTime_ = (1-globalEnergy)*300;
-    deltaTime_ = constrain(deltaTime_, 50, 300);
-    deltaTime_ = 300 * (1 - globalEnergy / 20.0f);
     if (millis()-timerParticles0 > deltaTime_) {
       timerParticles0 = millis();
       for (int i=0; i < particleDensity; i++) {
-        // particles.add(new Particle(globalEnergy, angleDirection)); // particle is created with a specific initial energy and a moving orientation defined by an angle
-        particles.add(new Particle(particleEnergy_, angleDirection)); // particle is created with a specific initial energy and a moving orientation defined by an angle
+        particles.add(new Particle(particleEnergy, angleDirection)); // particle is created with a specific initial energy and a moving orientation defined by an angle
         delay(1);
       }
     }
