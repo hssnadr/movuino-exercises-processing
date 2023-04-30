@@ -68,8 +68,8 @@ void draw() {
     float angleDirection;  // valeur varie entre 0 et TWO_PI // entre 0 et 6,28
     int particleDensity;   // valeur varie entre 0 et 10
 
-    float x_ = movuino.ax;
-    float y_ = movuino.ay;
+    float x_ = movuino.ax; // (mouseX - width/2) / float(width/2);
+    float y_ = movuino.ay; // (mouseY - height/2) / float(height/2);
     long time_ = millis();
 
     float dx_ = abs(x_ - oldx) / deltaTimeSensor;
