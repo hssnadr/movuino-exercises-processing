@@ -68,8 +68,8 @@ void draw() {
     float angleDirection;  // valeur varie entre 0 et TWO_PI // entre 0 et 6,28
     int particleDensity;   // valeur varie entre 0 et 10
 
-    float x_ = (mouseX - width/2) / float(width/2);
-    float y_ = (mouseY - height/2) / float(height/2);
+    float x_ = movuino.ax; // (mouseX - width/2) / float(width/2);
+    float y_ = movuino.ay; // (mouseY - height/2) / float(height/2);
     long time_ = millis();
 
     float dx_ = abs(x_ - oldx) / deltaTimeSensor;
@@ -78,20 +78,21 @@ void draw() {
     oldy = y_;
     oldTime = time_;
 
-    float globalEnergy = 10 * pow(pow(100 * dx_, 2) + pow(100 * dy_, 2), 2);
-    globalEnergy = constrain(globalEnergy, 0, 23);
-    particleDensity = round(random(2) + globalEnergy);
-    particleEnergy =  globalEnergy / 23.0f;
+    particleEnergy = 10 * pow(pow(100 * dx_, 2) + pow(100 * dy_, 2), 2);
+    particleEnergy = constrain(particleEnergy, 0, 23);
+    float ratioEnergy = particleEnergy / 23.0f; 
+    particleDensity = round(random(2) + particleEnergy);
     println(particleEnergy);
+    float particleEnergy_ =  particleEnergy / 23.0f;
     // ----------------------------------------------------------------------------------------------
 
     // Manage particles creation
-    float deltaTime_ = 300 * (1 - particleEnergy);
+    float deltaTime_ = 300 * (1 - ratioEnergy);
     angleDirection = getOrientationAngle(x_, y_);
     if (millis()-timerParticles0 > deltaTime_) {
       timerParticles0 = millis();
       for (int i=0; i < particleDensity; i++) {
-        particles.add(new Particle(particleEnergy, angleDirection)); // particle is created with a specific initial energy and a moving orientation defined by an angle
+        particles.add(new Particle(ratioEnergy, angleDirection)); // particle is created with a specific initial energy and a moving orientation defined by an angle
         delay(1);
       }
     }
