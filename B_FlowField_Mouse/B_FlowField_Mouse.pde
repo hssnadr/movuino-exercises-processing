@@ -67,11 +67,13 @@ void draw() {
     float particleEnergy;    // valeur varie entre 0 et 1
     float angleDirection;  // valeur varie entre 0 et TWO_PI // entre 0 et 6,28
     int particleDensity;   // valeur varie entre 0 et 10
-
-    float x_ = (mouseX - width/2) / float(width/2); // 
+  
+    // get position
+    float x_ = (mouseX - width/2) / float(width/2);
     float y_ = (mouseY - height/2) / float(height/2);
     long time_ = millis();
 
+    // calculate derivative
     float dx_ = abs(x_ - oldx) / deltaTimeSensor;
     float dy_ = abs(y_ - oldy) / deltaTimeSensor;
     oldx = x_;
@@ -82,7 +84,6 @@ void draw() {
     globalEnergy = constrain(globalEnergy, 0, 23);
     particleDensity = round(random(2) + globalEnergy);
     particleEnergy =  globalEnergy / 23.0f;
-    println(particleEnergy);
     // ----------------------------------------------------------------------------------------------
 
     // Manage particles creation

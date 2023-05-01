@@ -35,7 +35,8 @@ void setup() {
   // extract paths and points from the base shape using the above Segmentator settings
   allPaths = shape.getPointsInPaths();
   
-  //callMovuino("127.0.0.1", 3010, 3011);
+  // MOVUINO
+  // callMovuino("127.0.0.1", 3000, 3001); // do not change values if using the Movuino interface
 }
 
 void draw() {
@@ -52,9 +53,7 @@ void draw() {
   angle = getOrientationAngle(x_, y_);
   shiftX =  - 250*cos(angle);
   shiftY = 250*sin(angle);
-  timer0 = timer0/1; // ---> SEE MOUSEPRESSED() FUNCTION
-  // points appear and background color change when you reset timer0 at current millis() value
-  
+  // reset timer0 to trig point animation and color switch
   // --------------------------------------------------------------------------
   // --------------------------------------------------------------------------
   
