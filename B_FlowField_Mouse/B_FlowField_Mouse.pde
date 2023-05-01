@@ -73,13 +73,14 @@ void draw() {
     float y_ = (mouseY - height/2) / float(height/2);
     long time_ = millis();
 
-    // calculate derivative
+    // calculate derivative = speed
     float dx_ = abs(x_ - oldx) / deltaTimeSensor;
     float dy_ = abs(y_ - oldy) / deltaTimeSensor;
     oldx = x_;
     oldy = y_;
     oldTime = time_;
 
+    // calculate energy
     float globalEnergy = 10 * pow(pow(100 * dx_, 2) + pow(100 * dy_, 2), 2);
     globalEnergy = constrain(globalEnergy, 0, 23);
     particleDensity = round(random(2) + globalEnergy);
