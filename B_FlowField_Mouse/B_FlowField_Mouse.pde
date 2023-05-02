@@ -25,9 +25,6 @@ int maxParticles = 1000; // the maximum number of active particles
 
 long timerSensor0;
 int deltaTimeSensor = 40;
-float oldx;
-float oldy;
-float oldTime;
 
 void setup() {
   size(1000, 450, P2D);
@@ -45,11 +42,6 @@ void setup() {
 
   // MOVUINO
   // callMovuino("127.0.0.1", 3000, 3001); // do not change values if using the Movuino interface
-
-  // Data
-  oldx = 0;
-  oldy = 0;
-  oldTime = millis();
 
   timerParticles0 = millis();
   timerSensor0 = millis();
@@ -71,17 +63,9 @@ void draw() {
     // get position
     float x_ = (mouseX - width/2) / float(width/2);
     float y_ = (mouseY - height/2) / float(height/2);
-    long time_ = millis();
-
-    // calculate derivative = speed
-    float dx_ = abs(x_ - oldx) / deltaTimeSensor;
-    float dy_ = abs(y_ - oldy) / deltaTimeSensor;
-    oldx = x_;
-    oldy = y_;
-    oldTime = time_;
 
     // calculate energy
-    float globalEnergy = 10 * pow(pow(100 * dx_, 2) + pow(100 * dy_, 2), 2);
+    float globalEnergy = 10 * pow(pow(100 * x_, 2) + pow(100 * y_, 2), 2);
     globalEnergy = constrain(globalEnergy, 0, 23);
     particleDensity = round(random(2) + globalEnergy);
     particleEnergy =  globalEnergy / 23.0f;
